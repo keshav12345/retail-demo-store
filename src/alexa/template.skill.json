@@ -1,0 +1,44 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "The Alexa Skill for the Retail Demo Store",
+          "examplePhrases": [
+            "Alexa open Retail Demo Store",
+            "Is there a store nearby?"
+          ],
+          "keywords": [],
+          "name": "Retail Demo Store",
+          "description": "The Alexa Skill for the Retail Demo Store",
+          "smallIconUri": "file://assets/images/en-US_smallIconUri.png",
+          "largeIconUri": "file://assets/images/en-US_largeIconUri.png"
+        }
+      },
+      "automaticDistribution": {
+        "isActive": false
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Alexa, ask the Retail Demo Store if there is a store nearby",
+      "category": "SHOPPING",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {}
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "locales": {
+        "en-US": {
+          "termsOfUseUrl": "https://www.amazon.com/gp/help/customer/display.html?nodeId=201809740",
+          "privacyPolicyUrl": "https://www.alexa.com/help/privacy"
+        }
+      },
+      "containsAds": false,
+      "isExportCompliant": true,
+      "isChildDirected": false,
+      "usesPersonalInfo": true
+    }
+  }
+}

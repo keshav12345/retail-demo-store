@@ -1,0 +1,14 @@
+certifi
+chardet
+Faker
+idna
+numpy
+python-dateutil
+pytz
+PyYAML
+requests
+scipy
+six
+text-unidecode
+zope.interface
+pandas==2.2.*

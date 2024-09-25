@@ -1,0 +1,12 @@
+Hi {{User.UserAttributes.FirstName}}-
+
+Sometimes you want to be extra sure. We just don’t want you to miss out. This is a friendly reminder to complete your purchase. Your favorite products are selling fast. 
+
+{{User.UserAttributes.ShoppingCartItemTitle}}
+Buy Now
+
+Cheers,
+Retail Demo Store team
+
+Amazon Pinpoint | Real-time events
+When a user interacts with products included in a Pinpoint email, the events recorded are feed into Personalize and will show up when the user returns to the store.
