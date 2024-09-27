@@ -1056,9 +1056,9 @@ Outputs:
     Description: Pinpoint App Id.
     Value: !GetAtt Base.Outputs.PinpointAppId
 
-  AlexaSkillEndpointArn:
-    Description: Arn of AWS Lambda function that can be a back-end
-    Value: !If [DeployAlexaEndpoint, !GetAtt Alexa.Outputs.AlexaSkillEndpointArn, "NotDeployed"]
+  # AlexaSkillEndpointArn:
+  #   Description: Arn of AWS Lambda function that can be a back-end
+  #   Value: !If [DeployAlexaEndpoint, !GetAtt Alexa.Outputs.AlexaSkillEndpointArn, "NotDeployed"]
 
   ProductsServiceUrl:
     Description: Products load balancer URL.
