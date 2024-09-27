@@ -607,9 +607,9 @@ Conditions:
     - !Ref IncludemParticleDependencies
     - 'Yes'
 
-  DeployLocationStack: !Or
-    - !Equals [!Ref DeployLocationServices, "Yes"]
-    - !Equals [!Ref AlexaSkillId, ""]  # Disable Location if AlexaSkillId is not empty
+  # DeployLocationStack: !Or
+  #   - !Equals [!Ref DeployLocationServices, "Yes"]
+  #   - !Equals [!Ref AlexaSkillId, ""]  # Disable Location if AlexaSkillId is not empty
 
   CreateAmazonPayResources: !And
     - !And
@@ -619,9 +619,9 @@ Conditions:
       - !Not [!Equals [!Ref AmazonPayMerchantId, ""]]
       - !Not [!Equals [!Ref AmazonPayPublicKeyId, ""]]
 
-  DeployAlexaEndpoint: !Or
-    - !Equals [!Ref AlexaSkillId, ""]  # Disable Alexa if AlexaSkillId is empty
-    - !Equals [!Ref DeployLocationServices, "Yes"]  # Disable Alexa if Location is enabled
+  # DeployAlexaEndpoint: !Or
+  #   - !Equals [!Ref AlexaSkillId, ""]  # Disable Alexa if AlexaSkillId is empty
+  #   - !Equals [!Ref DeployLocationServices, "Yes"]  # Disable Alexa if Location is enabled
 
   ConditionCustomDomain: !Not
     - !Equals [!Ref CloudfrontCustomDomain, ""]
