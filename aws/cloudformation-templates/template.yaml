@@ -713,26 +713,26 @@ Resources:
         LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
 
   # Services Resources
-  # ApiGateway:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/apigateway.yaml
-  #     Parameters:
-  #       ProductsServiceELBListener: !GetAtt Services.Outputs.ProductsServiceELBListener
-  #       UsersServiceELBListener: !GetAtt Services.Outputs.UsersServiceELBListener
-  #       CartsServiceELBListener: !GetAtt Services.Outputs.CartsServiceELBListener
-  #       OrdersServiceELBListener: !GetAtt Services.Outputs.OrdersServiceELBListener
-  #       RecommendationsServiceELBListener: !GetAtt Services.Outputs.RecommendationsServiceELBListener
-  #       VideosServiceELBListener: !GetAtt Services.Outputs.VideosServiceELBListener
-  #       SearchServiceELBListener: !GetAtt Services.Outputs.SearchServiceELBListener
-  #       LocationServiceELBListener: !GetAtt Services.Outputs.LocationServiceELBListener
-  #       Subnets: !GetAtt Base.Outputs.Subnets
-  #       VpcId: !GetAtt Base.Outputs.VpcId
-  #       VpcCidr: !GetAtt Base.Outputs.VpcCidr
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       CognitoUserPoolId: !GetAtt Base.Outputs.UserPoolId
-  #       CognitoAppClientId: !GetAtt Base.Outputs.UserPoolClientId
+  ApiGateway:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/apigateway.yaml
+      Parameters:
+        ProductsServiceELBListener: !GetAtt Services.Outputs.ProductsServiceELBListener
+        UsersServiceELBListener: !GetAtt Services.Outputs.UsersServiceELBListener
+        CartsServiceELBListener: !GetAtt Services.Outputs.CartsServiceELBListener
+        OrdersServiceELBListener: !GetAtt Services.Outputs.OrdersServiceELBListener
+        RecommendationsServiceELBListener: !GetAtt Services.Outputs.RecommendationsServiceELBListener
+        VideosServiceELBListener: !GetAtt Services.Outputs.VideosServiceELBListener
+        SearchServiceELBListener: !GetAtt Services.Outputs.SearchServiceELBListener
+        LocationServiceELBListener: !GetAtt Services.Outputs.LocationServiceELBListener
+        Subnets: !GetAtt Base.Outputs.Subnets
+        VpcId: !GetAtt Base.Outputs.VpcId
+        VpcCidr: !GetAtt Base.Outputs.VpcCidr
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        CognitoUserPoolId: !GetAtt Base.Outputs.UserPoolId
+        CognitoAppClientId: !GetAtt Base.Outputs.UserPoolClientId
 
   # Web UI Pipeline
   # WebUIPipeline:
