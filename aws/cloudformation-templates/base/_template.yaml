@@ -133,31 +133,31 @@ Resources:
         LocationResourcePrefix: !Ref LocationResourcePrefix
 
   # Buckets
-  Buckets:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/buckets.yaml
-      Parameters:
-        CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
+  # Buckets:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/buckets.yaml
+  #     Parameters:
+  #       CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
 
   # Notebook Instance
-  Notebook:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/notebook.yaml
-      Parameters:
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-        VpcId: !GetAtt VPC.Outputs.VpcId
-        Subnet1: !GetAtt VPC.Outputs.Subnet1
-        ExperimentStrategyTable: !GetAtt Tables.Outputs.ExperimentStrategyTable
-        StackBucketName: !GetAtt Buckets.Outputs.StackBucketName
-        Uid: !Sub ${ParentStackName}-${AWS::Region}
-        UserPoolId: !GetAtt Authentication.Outputs.UserPoolId
-        PinpointAppId: !GetAtt Pinpoint.Outputs.PinpointAppId
-        GitHubUser: !Ref GitHubUser
-        GitHubBranch: !Ref GitHubBranch
-        EvidentlyProjectName: !GetAtt Evidently.Outputs.EvidentlyProjectName
+  # Notebook:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/notebook.yaml
+  #     Parameters:
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  #       VpcId: !GetAtt VPC.Outputs.VpcId
+  #       Subnet1: !GetAtt VPC.Outputs.Subnet1
+  #       ExperimentStrategyTable: !GetAtt Tables.Outputs.ExperimentStrategyTable
+  #       StackBucketName: !GetAtt Buckets.Outputs.StackBucketName
+  #       Uid: !Sub ${ParentStackName}-${AWS::Region}
+  #       UserPoolId: !GetAtt Authentication.Outputs.UserPoolId
+  #       PinpointAppId: !GetAtt Pinpoint.Outputs.PinpointAppId
+  #       GitHubUser: !Ref GitHubUser
+  #       GitHubBranch: !Ref GitHubBranch
+  #       EvidentlyProjectName: !GetAtt Evidently.Outputs.EvidentlyProjectName
 
   # Tables
   Tables:
@@ -260,35 +260,35 @@ Resources:
         SourceDeploymentType: !Ref SourceDeploymentType
 
   # Pinpoint Resources
-  Pinpoint:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/pinpoint.yaml
+  # Pinpoint:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/pinpoint.yaml
 
   # CloudFront CDN
-  CloudFront:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/cloudfront.yaml
-      Parameters:
-        CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
-        LoggingBucketName: !GetAtt Buckets.Outputs.LoggingBucketName
-        ACMCertificateArn: !Ref ACMCertificateArn
-        ResourceBucketImages: !Ref ResourceBucketImages
-        ResourceBucketImagesPrefix: !Ref ResourceBucketImagesPrefix
-        SourceImagesPackage: !Ref SourceImagesPackage
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  # CloudFront:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/cloudfront.yaml
+  #     Parameters:
+  #       CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
+  #       LoggingBucketName: !GetAtt Buckets.Outputs.LoggingBucketName
+  #       ACMCertificateArn: !Ref ACMCertificateArn
+  #       ResourceBucketImages: !Ref ResourceBucketImages
+  #       ResourceBucketImagesPrefix: !Ref ResourceBucketImagesPrefix
+  #       SourceImagesPackage: !Ref SourceImagesPackage
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
 
   # Personalize Resources
-  Personalize:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/personalize.yaml
-      Parameters:
-        ResourceBucket: !Ref ResourceBucket
-        Uid: !Sub ${ParentStackName}-${AWS::Region}
-        StackBucketName: !GetAtt Buckets.Outputs.StackBucketName
+  # Personalize:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/personalize.yaml
+  #     Parameters:
+  #       ResourceBucket: !Ref ResourceBucket
+  #       Uid: !Sub ${ParentStackName}-${AWS::Region}
+  #       StackBucketName: !GetAtt Buckets.Outputs.StackBucketName
 
   # Evidently
   Evidently:
