@@ -818,17 +818,17 @@ Resources:
   #       LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
 
   # Lex personalization function
-  ChatbotFunctions:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/lex.yaml
-      Parameters:
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-        UsersServiceExternalUrl: !GetAtt Services.Outputs.UsersServiceUrl
-        RecommendationsServiceExternalUrl: !GetAtt Services.Outputs.RecommendationsServiceUrl
-        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  # ChatbotFunctions:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/lex.yaml
+  #     Parameters:
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  #       UsersServiceExternalUrl: !GetAtt Services.Outputs.UsersServiceUrl
+  #       RecommendationsServiceExternalUrl: !GetAtt Services.Outputs.RecommendationsServiceUrl
+  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
   # Amazon Location Resources
   # Location:
@@ -901,35 +901,35 @@ Resources:
   #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
   # Deployment support
-  DeploymentSupport:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/deployment-support.yaml
-      Parameters:
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-        PreIndexOpenSearch: !Ref PreIndexOpenSearch
-        PreCreatePersonalizeResources: !Ref PreCreatePersonalizeResources
-        Subnet1: !GetAtt Base.Outputs.Subnet1
-        Subnet2: !GetAtt Base.Outputs.Subnet2
-        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-        OpenSearchSecurityGroupId: !GetAtt Base.Outputs.OpenSearchSecurityGroupId
-        OpenSearchDomainArn: !GetAtt Base.Outputs.OpenSearchDomainArn
-        OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
-        ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
-        PreCreatePinpointWorkshop: !Ref PreCreatePinpointWorkshop
-        Uid: !Sub ${AWS::StackName}-${AWS::Region}
-        PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
-        PinpointPersonalizeRoleArn: !GetAtt Services.Outputs.PinpointPersonalizeRoleArn
-        CustomizeRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeRecommendationsFunctionArn
-        CustomizeOffersRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeOffersRecommendationsFunctionArn
-        PinpointEmailFromAddress: !Ref PinpointEmailFromAddress
-        PinpointEmailFromName: !Ref PinpointEmailFromName
-        UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
-        ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
-        DeployPersonalizedOffersCampaign: !Ref DeployPersonalizedOffersCampaign
-        PersonalizeRoleArn: !GetAtt Base.Outputs.PersonalizeRoleArn
-        StackBucketName: !GetAtt Base.Outputs.StackBucketName
+  # DeploymentSupport:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/deployment-support.yaml
+  #     Parameters:
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  #       PreIndexOpenSearch: !Ref PreIndexOpenSearch
+  #       PreCreatePersonalizeResources: !Ref PreCreatePersonalizeResources
+  #       Subnet1: !GetAtt Base.Outputs.Subnet1
+  #       Subnet2: !GetAtt Base.Outputs.Subnet2
+  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+  #       OpenSearchSecurityGroupId: !GetAtt Base.Outputs.OpenSearchSecurityGroupId
+  #       OpenSearchDomainArn: !GetAtt Base.Outputs.OpenSearchDomainArn
+  #       OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
+  #       ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
+  #       PreCreatePinpointWorkshop: !Ref PreCreatePinpointWorkshop
+  #       Uid: !Sub ${AWS::StackName}-${AWS::Region}
+  #       PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
+  #       PinpointPersonalizeRoleArn: !GetAtt Services.Outputs.PinpointPersonalizeRoleArn
+  #       CustomizeRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeRecommendationsFunctionArn
+  #       CustomizeOffersRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeOffersRecommendationsFunctionArn
+  #       PinpointEmailFromAddress: !Ref PinpointEmailFromAddress
+  #       PinpointEmailFromName: !Ref PinpointEmailFromName
+  #       UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
+  #       ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
+  #       DeployPersonalizedOffersCampaign: !Ref DeployPersonalizedOffersCampaign
+  #       PersonalizeRoleArn: !GetAtt Base.Outputs.PersonalizeRoleArn
+  #       StackBucketName: !GetAtt Base.Outputs.StackBucketName
 
   # Cleanup bucket function
   CleanupBucket:
@@ -938,62 +938,62 @@ Resources:
       TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/cleanup-bucket.yaml
 
   # Segment Lambda Functions and Roles
-  SegmentPersonalize:
-    Condition: DeploySegmentResources
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/segment.yaml
-      Parameters:
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  # SegmentPersonalize:
+  #   Condition: DeploySegmentResources
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/segment.yaml
+  #     Parameters:
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
 
   # mParticle Lambda Functions Kinesis and Roles
-  mParticlePersonalize:
-    Condition: DeploymParticleResources
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/mparticle.yaml
-      Parameters:
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-        mParticleOrgId: !Ref mParticleOrgId
-        Uid: !Sub ${AWS::StackName}-${AWS::Region}
-        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  # mParticlePersonalize:
+  #   Condition: DeploymParticleResources
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/mparticle.yaml
+  #     Parameters:
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  #       mParticleOrgId: !Ref mParticleOrgId
+  #       Uid: !Sub ${AWS::StackName}-${AWS::Region}
+  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
-  RoomMakeover:
-    Type: AWS::CloudFormation::Stack
-    Condition: DeployRoomMakeoverStack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/room-generator.yaml
-      Parameters:
-        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-        LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
-        CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
-        OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
-        ApiGatewayId: !GetAtt ApiGateway.Outputs.ApiGatewayId
-        LambdaAuthorizer: !GetAtt ApiGateway.Outputs.ApiGatewayAuthorizer
-        WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
-        WebURL: !If 
-          - ConditionCustomDomain
-          - !Sub https://${CloudfrontCustomDomain}
-          - !GetAtt Base.Outputs.WebUICDNURL        
-        CognitoAuthorizedRole: !GetAtt Base.Outputs.CognitoAuthorizedRole
-        SageMakerEndpointName: !Ref SageMakerEndpointName
-        EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
-        SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
-        SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
-        SourceDeploymentType: !Ref SourceDeploymentType
-        GitHubRepo: !Ref GitHubRepo
-        GitHubBranch: !Ref GitHubBranch
-        GitHubToken: !Ref GitHubToken
-        GitHubUser: !Ref GitHubUser     
+  # RoomMakeover:
+  #   Type: AWS::CloudFormation::Stack
+  #   Condition: DeployRoomMakeoverStack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/room-generator.yaml
+  #     Parameters:
+  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  #       LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
+  #       CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
+  #       OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
+  #       ApiGatewayId: !GetAtt ApiGateway.Outputs.ApiGatewayId
+  #       LambdaAuthorizer: !GetAtt ApiGateway.Outputs.ApiGatewayAuthorizer
+  #       WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
+  #       WebURL: !If 
+  #         - ConditionCustomDomain
+  #         - !Sub https://${CloudfrontCustomDomain}
+  #         - !GetAtt Base.Outputs.WebUICDNURL        
+  #       CognitoAuthorizedRole: !GetAtt Base.Outputs.CognitoAuthorizedRole
+  #       SageMakerEndpointName: !Ref SageMakerEndpointName
+  #       EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
+  #       SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
+  #       SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
+  #       SourceDeploymentType: !Ref SourceDeploymentType
+  #       GitHubRepo: !Ref GitHubRepo
+  #       GitHubBranch: !Ref GitHubBranch
+  #       GitHubToken: !Ref GitHubToken
+  #       GitHubUser: !Ref GitHubUser     
 
   ApiGatewayDeploy:
     Type: AWS::CloudFormation::Stack
