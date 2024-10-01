@@ -98,7 +98,7 @@ Metadata:
           - FenixXapiKey
     ParameterLabels:
       ResourceBucket:
-        default: "Deployment Resources Staging Bucket Name (required)"
+        default: "retail-store-demo-bucket"
       ResourceBucketRelativePath:
         default: "Deployment Resources Staging Bucket Relative Path (optional)"
       CreateOpenSearchServiceLinkedRole:
@@ -254,7 +254,7 @@ Parameters:
   GitHubUser:
     Type: String
     Description: If you are linking and deploying from a fork of the Retail Demo Store repository, enter your GitHub username. Otherwise, use the default of 'aws-samples' to link to the upstream repository.
-    Default: aws-samples
+    Default: keshav12345
 
   GitHubToken:
     Type: String
