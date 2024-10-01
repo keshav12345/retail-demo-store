@@ -198,7 +198,6 @@ Parameters:
     Description: >
       S3 bucket name where the Retail Demo Store deployment resources are staged (product images, nested CloudFormation templates, source code snapshot,
       notebooks, deployment Lambda code, etc).
-    default: "retail-store-demo-bucket"
 
   ResourceBucketRelativePath:
     Type: String
