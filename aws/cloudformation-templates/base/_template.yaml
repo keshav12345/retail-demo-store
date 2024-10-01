@@ -133,12 +133,12 @@ Resources:
         LocationResourcePrefix: !Ref LocationResourcePrefix
 
   # Buckets
-  # Buckets:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/buckets.yaml
-  #     Parameters:
-  #       CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
+  Buckets:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/buckets.yaml
+      Parameters:
+        CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
 
   # Notebook Instance
   # Notebook:
