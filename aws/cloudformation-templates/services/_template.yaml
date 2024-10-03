@@ -82,8 +82,8 @@ Parameters:
     Type: String
     Default: none
 
-  PinpointAppId:
-    Type: String
+  # PinpointAppId:
+  #   Type: String
 
   ProductsTable:
     Type: String
@@ -207,7 +207,7 @@ Resources:
         ParameterPersonalizeEventTrackerId: !Ref ParameterPersonalizeEventTrackerId
         ParameterAmplitudeApiKey: !Ref ParameterAmplitudeApiKey
         ParameterOptimizelySdkKey: !Ref ParameterOptimizelySdkKey
-        PinpointAppId: !Ref PinpointAppId
+        # PinpointAppId: !Ref PinpointAppId
         CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
         DeleteRepositoryLambdaArn: !GetAtt DeleteRepositoryLambdaFunction.Arn
         WebRootUrl: !Ref WebRootUrl
