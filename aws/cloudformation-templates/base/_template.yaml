@@ -129,7 +129,7 @@ Resources:
       TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/base/authentication.yaml
       Parameters:
         AuthName: !Sub ${ParentStackName}-${AWS::Region}
-        PinpointAppId: !GetAtt Pinpoint.Outputs.PinpointAppId
+        # PinpointAppId: !GetAtt Pinpoint.Outputs.PinpointAppId
         LocationResourcePrefix: !Ref LocationResourcePrefix
 
   # Buckets
@@ -379,9 +379,9 @@ Outputs:
     Description: OpenSearch Security Group Id
     Value: !GetAtt OpenSearch.Outputs.SecurityGroupId
 
-  PinpointAppId:
-    Description: Pinpoint App Id
-    Value: !GetAtt Pinpoint.Outputs.PinpointAppId
+  # PinpointAppId:
+  #   Description: Pinpoint App Id
+  #   Value: !GetAtt Pinpoint.Outputs.PinpointAppId
 
   PinpointSMSLongCode:
     Description: Pinpoint SMS Long code for two way SMS

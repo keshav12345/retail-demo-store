@@ -8,9 +8,9 @@ Parameters:
     Type: String
     Description: Unique Auth Name for Cognito Resources
 
-  PinpointAppId:
-    Type: String
-    Description: Pinpoint project/application ID
+  # PinpointAppId:
+  #   Type: String
+  #   Description: Pinpoint project/application ID
 
   LocationResourcePrefix:
     Type: String
@@ -143,12 +143,12 @@ Resources:
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: "Allow"
-                Action:
-                  - mobiletargeting:UpdateEndpoint
-                  - mobiletargeting:PutEvents
-                Resource:
-                  - !Sub "arn:aws:mobiletargeting:${AWS::Region}:${AWS::AccountId}:apps/${PinpointAppId}/*"
+              # - Effect: "Allow"
+              #   Action:
+              #     - mobiletargeting:UpdateEndpoint
+              #     - mobiletargeting:PutEvents
+              #   Resource:
+              #     - !Sub "arn:aws:mobiletargeting:${AWS::Region}:${AWS::AccountId}:apps/${PinpointAppId}/*"
               - Effect: "Allow"
                 Action:
                   - "mobileanalytics:PutEvents"
@@ -188,12 +188,12 @@ Resources:
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: "Allow"
-                Action:
-                  - mobiletargeting:UpdateEndpoint
-                  - mobiletargeting:PutEvents
-                Resource:
-                  - !Sub "arn:aws:mobiletargeting:${AWS::Region}:${AWS::AccountId}:apps/${PinpointAppId}/*"
+              # - Effect: "Allow"
+              #   Action:
+              #     - mobiletargeting:UpdateEndpoint
+              #     - mobiletargeting:PutEvents
+              #   Resource:
+              #     - !Sub "arn:aws:mobiletargeting:${AWS::Region}:${AWS::AccountId}:apps/${PinpointAppId}/*"
               - Effect: "Allow"
                 Action:
                   - "mobileanalytics:PutEvents"
