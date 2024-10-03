@@ -1024,9 +1024,9 @@ Outputs:
     Description: Stack Bucket Name
     Value: !GetAtt Base.Outputs.StackBucketName
 
-  NotebookInstanceId:
-    Description: Notebook Instance Id.
-    Value: !GetAtt Base.Outputs.NotebookInstanceId
+  # NotebookInstanceId:
+  #   Description: Notebook Instance Id.
+  #   Value: !GetAtt Base.Outputs.NotebookInstanceId
 
   VpcId:
     Description: VPC Id.
