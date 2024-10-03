@@ -331,9 +331,9 @@ Outputs:
     Description: S3 Bucket For logging
     Value: !GetAtt Buckets.Outputs.LoggingBucketName
 
-  NotebookInstanceId:
-    Description: Notebook Instance Id.
-    Value: !GetAtt Notebook.Outputs.NotebookInstanceId
+  # NotebookInstanceId:
+  #   Description: Notebook Instance Id.
+  #   Value: !GetAtt Notebook.Outputs.NotebookInstanceId
 
   VpcId:
     Description: VPC Id.
