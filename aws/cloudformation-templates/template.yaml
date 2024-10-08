@@ -41,7 +41,7 @@ Metadata:
           - BedrockProductPersonalization
           - DeployRoomMakeoverDemo
           # - SageMakerEndpointName
-          - EnableSageMakerAutoScaling
+          # - EnableSageMakerAutoScaling
           # - SageMakerScalingMinCapacity
           # - SageMakerScalingMaxCapacity
           - OpenSearchEmbeddingIndex
