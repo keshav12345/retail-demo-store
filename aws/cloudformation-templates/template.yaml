@@ -29,8 +29,8 @@ Metadata:
       - Label:
           default: "Auto-Build Resources"
         Parameters:
-          - PreIndexOpenSearch
-          - PreCreatePersonalizeResources
+          # - PreIndexOpenSearch
+          # - PreCreatePersonalizeResources
           - PreCreatePinpointWorkshop
           - PinpointEmailFromAddress
           - PinpointEmailFromName
@@ -98,7 +98,7 @@ Metadata:
           - FenixXapiKey
     ParameterLabels:
       ResourceBucket:
-        default: "Deployment Resources Staging Bucket Name (required)"
+        default: "retail-store-demo-bucket"
       ResourceBucketRelativePath:
         default: "Deployment Resources Staging Bucket Relative Path (optional)"
       CreateOpenSearchServiceLinkedRole:
@@ -106,11 +106,11 @@ Metadata:
       SourceDeploymentType:
         default: "Deployment Type"
       GitHubRepo:
-        default: "GitHub Repository Name (required)"
+        default: "retail-demo-store"
       GitHubBranch:
-        default: "GitHub Branch (required)"
+        default: "master"
       GitHubUser:
-        default: "GitHub Username (required)"
+        default: "keshav12345"
       GitHubToken:
         default: "GitHub Personal Access Token (optional)"
       PreIndexOpenSearch:
@@ -355,7 +355,7 @@ Parameters:
     AllowedValues:
       - "Yes"
       - "No"
-    Default: "Yes"
+    Default: "No"
 
   AmazonPayPublicKeyId:
     Type: String
