@@ -98,7 +98,7 @@ Metadata:
           - FenixXapiKey
     ParameterLabels:
       ResourceBucket:
-        default: "retail-store-demo-bucket"
+        default: "Deployment Resources Staging Bucket Name (required)"
       ResourceBucketRelativePath:
         default: "Deployment Resources Staging Bucket Relative Path (optional)"
       CreateOpenSearchServiceLinkedRole:
@@ -106,11 +106,11 @@ Metadata:
       SourceDeploymentType:
         default: "Deployment Type"
       GitHubRepo:
-        default: "retail-demo-store"
+        default: "GitHub Repository Name (required)"
       GitHubBranch:
-        default: "master"
+        default: "GitHub Branch (required)"
       GitHubUser:
-        default: "keshav12345"
+        default: "GitHub Username (required)"
       GitHubToken:
         default: "GitHub Personal Access Token (optional)"
       PreIndexOpenSearch:
@@ -254,7 +254,7 @@ Parameters:
   GitHubUser:
     Type: String
     Description: If you are linking and deploying from a fork of the Retail Demo Store repository, enter your GitHub username. Otherwise, use the default of 'aws-samples' to link to the upstream repository.
-    Default: keshav12345
+    Default: aws-samples
 
   GitHubToken:
     Type: String
@@ -607,9 +607,9 @@ Conditions:
     - !Ref IncludemParticleDependencies
     - 'Yes'
 
-  # DeployLocationStack: !Or
-  #   - !Equals [!Ref DeployLocationServices, "Yes"]
-  #   - !Equals [!Ref AlexaSkillId, ""]  # Disable Location if AlexaSkillId is not empty
+  DeployLocationStack: !Equals
+    - !Ref DeployLocationServices
+    - "Yes"
 
   CreateAmazonPayResources: !And
     - !And
@@ -619,9 +619,7 @@ Conditions:
       - !Not [!Equals [!Ref AmazonPayMerchantId, ""]]
       - !Not [!Equals [!Ref AmazonPayPublicKeyId, ""]]
 
-  # DeployAlexaEndpoint: !Or
-  #   - !Equals [!Ref AlexaSkillId, ""]  # Disable Alexa if AlexaSkillId is empty
-  #   - !Equals [!Ref DeployLocationServices, "Yes"]  # Disable Alexa if Location is enabled
+  DeployAlexaEndpoint: !Not [!Equals [!Ref AlexaSkillId, ""]]
 
   ConditionCustomDomain: !Not
     - !Equals [!Ref CloudfrontCustomDomain, ""]
@@ -687,18 +685,18 @@ Resources:
         ClusterName: !GetAtt Base.Outputs.ClusterName
         ServiceDiscoveryNamespace: !GetAtt Base.Outputs.ServiceDiscoveryNamespace
         EnvOpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
-        # PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
-        # ProductsTable: !GetAtt Base.Outputs.ProductsTable
-        # CategoriesTable: !GetAtt Base.Outputs.CategoriesTable
-        # CartsTable: !GetAtt Base.Outputs.CartsTable
-        # OrdersTable: !GetAtt Base.Outputs.OrdersTable
-        # ExperimentStrategyTable: !GetAtt Base.Outputs.ExperimentStrategyTable
-        # PersonalisedProductsTable: !GetAtt Base.Outputs.PersonalisedProductsTable
-        # ParameterPersonalizeEventTrackerId: !GetAtt Base.Outputs.ParameterPersonalizeEventTrackerId
-        # ParameterAmplitudeApiKey: !GetAtt Base.Outputs.ParameterAmplitudeApiKey
-        # ParameterOptimizelySdkKey: !GetAtt Base.Outputs.ParameterOptimizelySdkKey
+        PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
+        ProductsTable: !GetAtt Base.Outputs.ProductsTable
+        CategoriesTable: !GetAtt Base.Outputs.CategoriesTable
+        CartsTable: !GetAtt Base.Outputs.CartsTable
+        OrdersTable: !GetAtt Base.Outputs.OrdersTable
+        ExperimentStrategyTable: !GetAtt Base.Outputs.ExperimentStrategyTable
+        PersonalisedProductsTable: !GetAtt Base.Outputs.PersonalisedProductsTable
+        ParameterPersonalizeEventTrackerId: !GetAtt Base.Outputs.ParameterPersonalizeEventTrackerId
+        ParameterAmplitudeApiKey: !GetAtt Base.Outputs.ParameterAmplitudeApiKey
+        ParameterOptimizelySdkKey: !GetAtt Base.Outputs.ParameterOptimizelySdkKey
         CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
-        # ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
+        ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
         WebRootUrl: !If 
           - ConditionCustomDomain
           - !Sub https://${CloudfrontCustomDomain}
@@ -708,7 +706,7 @@ Resources:
           - ConditionCustomDomain
           - !Sub https://${CloudfrontCustomDomain}/images/
           - !Sub ${Base.Outputs.WebUICDNURL}/images/
-        # EvidentlyProjectName: !GetAtt Base.Outputs.EvidentlyProjectName
+        EvidentlyProjectName: !GetAtt Base.Outputs.EvidentlyProjectName
         LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
         LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
 
@@ -735,201 +733,201 @@ Resources:
         CognitoAppClientId: !GetAtt Base.Outputs.UserPoolClientId
 
   # Web UI Pipeline
-  # WebUIPipeline:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/web-ui-pipeline.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       SourceDeploymentType: !Ref SourceDeploymentType
-  #       GitHubRepo: !Ref GitHubRepo
-  #       GitHubBranch: !Ref GitHubBranch
-  #       GitHubToken: !Ref GitHubToken
-  #       GitHubUser: !Ref GitHubUser
-  #       AmazonPayMerchantId: !Ref AmazonPayMerchantId
-  #       AmazonPayPublicKeyId: !Ref AmazonPayPublicKeyId
-  #       AmazonPayStoreId: !Ref AmazonPayStoreId
-  #       UserPoolId: !GetAtt Base.Outputs.UserPoolId
-  #       UserPoolClientId: !GetAtt Base.Outputs.UserPoolClientId
-  #       IdentityPoolId: !GetAtt Base.Outputs.IdentityPoolId
-  #       APIGatewayUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
-  #       ParameterPersonalizeEventTrackerId: !GetAtt Base.Outputs.ParameterPersonalizeEventTrackerId
-  #       FenixZipDetectUrl: !Ref FenixZipDetectUrl
-  #       FenixTenantId: !Ref FenixTenantId
-  #       FenixEddEndpoint: !Ref FenixEddEndpoint
-  #       FenixMonetaryValue: !Ref FenixMonetaryValue
-  #       FenixEnabledPdp: !Ref FenixEnabledPdp
-  #       FenixEnabledCart: !Ref FenixEnabledCart
-  #       FenixEnabledCheckout: !Ref FenixEnabledCheckout
-  #       FenixXapiKey: !Ref FenixXapiKey
-  #       BedrockProductPersonalization: !Ref BedrockProductPersonalization
-  #       RoomImagesBucket: !If [DeployRoomMakeoverStack, !GetAtt RoomMakeover.Outputs.RoomImagesBucket, '']
-  #       LocationResourceName:
-  #         !If [
-  #           DeployLocationStack,
-  #           !GetAtt Location.Outputs.LocationResourceName,
-  #           "NotDeployed",
-  #         ]
-  #       LocationNotificationEndpoint:
-  #         !If [
-  #           DeployLocationStack,
-  #           !GetAtt Location.Outputs.LocationNotificationEndpoint,
-  #           "NotDeployed",
-  #         ]
-  #       ParameterAmplitudeApiKey: !GetAtt Base.Outputs.ParameterAmplitudeApiKey
-  #       ParameterOptimizelySdkKey: !GetAtt Base.Outputs.ParameterOptimizelySdkKey
-  #       ParameterSegmentWriteKey: !GetAtt Base.Outputs.ParameterSegmentWriteKey
-  #       ParameterGoogleAnalyticsMeasurementId: !GetAtt Base.Outputs.ParameterGoogleAnalyticsMeasurementId
-  #       CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
-  #       WebUICDN: !GetAtt Base.Outputs.WebUICDN
-  #       WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
-  #       WebRootUrl: !GetAtt Base.Outputs.WebUICDNURL
-  #       ImageRootUrl: !Sub
-  #         - "${RootURL}/images/"
-  #         - RootURL: !GetAtt Base.Outputs.WebUICDNURL
-  #       LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
+  WebUIPipeline:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/web-ui-pipeline.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        SourceDeploymentType: !Ref SourceDeploymentType
+        GitHubRepo: !Ref GitHubRepo
+        GitHubBranch: !Ref GitHubBranch
+        GitHubToken: !Ref GitHubToken
+        GitHubUser: !Ref GitHubUser
+        AmazonPayMerchantId: !Ref AmazonPayMerchantId
+        AmazonPayPublicKeyId: !Ref AmazonPayPublicKeyId
+        AmazonPayStoreId: !Ref AmazonPayStoreId
+        UserPoolId: !GetAtt Base.Outputs.UserPoolId
+        UserPoolClientId: !GetAtt Base.Outputs.UserPoolClientId
+        IdentityPoolId: !GetAtt Base.Outputs.IdentityPoolId
+        APIGatewayUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
+        ParameterPersonalizeEventTrackerId: !GetAtt Base.Outputs.ParameterPersonalizeEventTrackerId
+        FenixZipDetectUrl: !Ref FenixZipDetectUrl
+        FenixTenantId: !Ref FenixTenantId
+        FenixEddEndpoint: !Ref FenixEddEndpoint
+        FenixMonetaryValue: !Ref FenixMonetaryValue
+        FenixEnabledPdp: !Ref FenixEnabledPdp
+        FenixEnabledCart: !Ref FenixEnabledCart
+        FenixEnabledCheckout: !Ref FenixEnabledCheckout
+        FenixXapiKey: !Ref FenixXapiKey
+        BedrockProductPersonalization: !Ref BedrockProductPersonalization
+        RoomImagesBucket: !If [DeployRoomMakeoverStack, !GetAtt RoomMakeover.Outputs.RoomImagesBucket, '']
+        LocationResourceName:
+          !If [
+            DeployLocationStack,
+            !GetAtt Location.Outputs.LocationResourceName,
+            "NotDeployed",
+          ]
+        LocationNotificationEndpoint:
+          !If [
+            DeployLocationStack,
+            !GetAtt Location.Outputs.LocationNotificationEndpoint,
+            "NotDeployed",
+          ]
+        ParameterAmplitudeApiKey: !GetAtt Base.Outputs.ParameterAmplitudeApiKey
+        ParameterOptimizelySdkKey: !GetAtt Base.Outputs.ParameterOptimizelySdkKey
+        ParameterSegmentWriteKey: !GetAtt Base.Outputs.ParameterSegmentWriteKey
+        ParameterGoogleAnalyticsMeasurementId: !GetAtt Base.Outputs.ParameterGoogleAnalyticsMeasurementId
+        CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
+        WebUICDN: !GetAtt Base.Outputs.WebUICDN
+        WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
+        WebRootUrl: !GetAtt Base.Outputs.WebUICDNURL
+        ImageRootUrl: !Sub
+          - "${RootURL}/images/"
+          - RootURL: !GetAtt Base.Outputs.WebUICDNURL
+        LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
 
   # Swagger UI Pipeline
-  # SwaggerUIPipeline:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/swagger-ui-pipeline.yaml
-  #     Parameters:
-  #       SwaggerUICDN: !GetAtt Base.Outputs.SwaggerUICDN
-  #       SwaggerUIBucketName: !GetAtt Base.Outputs.SwaggerUIBucketName
-  #       SwaggerUIRootUrl: !GetAtt Base.Outputs.SwaggerUICDNURL
-  #       SourceDeploymentType: !Ref SourceDeploymentType
-  #       GitHubRepo: !Ref GitHubRepo
-  #       GitHubBranch: !Ref GitHubBranch
-  #       GitHubToken: !Ref GitHubToken
-  #       GitHubUser: !Ref GitHubUser
-  #       ProductsServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       UsersServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       CartsServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       OrdersServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       RecommendationsServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       SearchServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       VideosServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       LocationServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       OffersServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
-  #       CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
-  #       LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
+  SwaggerUIPipeline:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/swagger-ui-pipeline.yaml
+      Parameters:
+        SwaggerUICDN: !GetAtt Base.Outputs.SwaggerUICDN
+        SwaggerUIBucketName: !GetAtt Base.Outputs.SwaggerUIBucketName
+        SwaggerUIRootUrl: !GetAtt Base.Outputs.SwaggerUICDNURL
+        SourceDeploymentType: !Ref SourceDeploymentType
+        GitHubRepo: !Ref GitHubRepo
+        GitHubBranch: !Ref GitHubBranch
+        GitHubToken: !Ref GitHubToken
+        GitHubUser: !Ref GitHubUser
+        ProductsServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        UsersServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        CartsServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        OrdersServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        RecommendationsServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        SearchServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        VideosServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        LocationServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        OffersServiceExternalUrl: !GetAtt ApiGateway.Outputs.APIEndpoint
+        CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
+        LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
 
   # Lex personalization function
-  # ChatbotFunctions:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/lex.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       UsersServiceExternalUrl: !GetAtt Services.Outputs.UsersServiceUrl
-  #       RecommendationsServiceExternalUrl: !GetAtt Services.Outputs.RecommendationsServiceUrl
-  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  ChatbotFunctions:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/lex.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        UsersServiceExternalUrl: !GetAtt Services.Outputs.UsersServiceUrl
+        RecommendationsServiceExternalUrl: !GetAtt Services.Outputs.RecommendationsServiceUrl
+        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
   # Amazon Location Resources
-  # Location:
-  #   Type: AWS::CloudFormation::Stack
-  #   Condition: DeployLocationStack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/location.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       UserPoolId: !GetAtt Base.Outputs.UserPoolId
-  #       DeployDefaultGeofence: !Ref DeployPersonalizedOffersCampaign
-  #       PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
-  #       PinpointEmailFromAddress: !Ref PinpointEmailFromAddress
-  #       ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
-  #       CartsServiceExternalUrl: !GetAtt Services.Outputs.CartsServiceUrl
-  #       OrdersServiceExternalUrl: !GetAtt Services.Outputs.OrdersServiceUrl
-  #       OffersServiceExternalUrl: !GetAtt Services.Outputs.OffersServiceUrl
-  #       UsersServiceExternalUrl: !GetAtt Services.Outputs.UsersServiceUrl
-  #       WebURL:
-  #         !If [
-  #           ConditionCustomDomain,
-  #           !Sub 'https://${CloudfrontCustomDomain}' ,
-  #           !GetAtt Base.Outputs.WebUICDNURL
-  #         ]
-  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  Location:
+    Type: AWS::CloudFormation::Stack
+    Condition: DeployLocationStack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/location.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        UserPoolId: !GetAtt Base.Outputs.UserPoolId
+        DeployDefaultGeofence: !Ref DeployPersonalizedOffersCampaign
+        PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
+        PinpointEmailFromAddress: !Ref PinpointEmailFromAddress
+        ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
+        CartsServiceExternalUrl: !GetAtt Services.Outputs.CartsServiceUrl
+        OrdersServiceExternalUrl: !GetAtt Services.Outputs.OrdersServiceUrl
+        OffersServiceExternalUrl: !GetAtt Services.Outputs.OffersServiceUrl
+        UsersServiceExternalUrl: !GetAtt Services.Outputs.UsersServiceUrl
+        WebURL:
+          !If [
+            ConditionCustomDomain,
+            !Sub 'https://${CloudfrontCustomDomain}' ,
+            !GetAtt Base.Outputs.WebUICDNURL
+          ]
+        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
-  # AmazonPay:
-  #   Type: AWS::CloudFormation::Stack
-  #   Condition: CreateAmazonPayResources
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/amazonpay.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       AmazonPayPublicKeyId: !Ref AmazonPayPublicKeyId
-  #       AmazonPayStoreId: !Ref AmazonPayStoreId
-  #       AmazonPayPrivateKey: !Ref AmazonPayPrivateKey
-  #       WebURL: 
-  #         !If [
-  #           ConditionCustomDomain,
-  #           !Sub 'https://${CloudfrontCustomDomain}' ,
-  #           !GetAtt Base.Outputs.WebUICDNURL
-  #         ]
+  AmazonPay:
+    Type: AWS::CloudFormation::Stack
+    Condition: CreateAmazonPayResources
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/amazonpay.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        AmazonPayPublicKeyId: !Ref AmazonPayPublicKeyId
+        AmazonPayStoreId: !Ref AmazonPayStoreId
+        AmazonPayPrivateKey: !Ref AmazonPayPrivateKey
+        WebURL: 
+          !If [
+            ConditionCustomDomain,
+            !Sub 'https://${CloudfrontCustomDomain}' ,
+            !GetAtt Base.Outputs.WebUICDNURL
+          ]
 
-  # Alexa:
-  #   Type: AWS::CloudFormation::Stack
-  #   Condition: DeployAlexaEndpoint
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/alexa.yaml
-  #     Parameters:
-  #       AlexaSkillId: !Ref AlexaSkillId
-  #       PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
-  #       LocationServiceExternalUrl: !GetAtt Services.Outputs.LocationServiceUrl
-  #       OrdersServiceExternalUrl: !GetAtt Services.Outputs.OrdersServiceUrl
-  #       CartsServiceExternalUrl: !GetAtt Services.Outputs.CartsServiceUrl
-  #       RecommendationsServiceExternalUrl: !GetAtt Services.Outputs.RecommendationsServiceUrl
-  #       LocationResourceName:
-  #         !If [
-  #           DeployLocationStack,
-  #           !GetAtt Location.Outputs.LocationResourceName,
-  #           "NotDeployed",
-  #         ]
-  #       AlexaDefaultSandboxEmail: !Ref AlexaDefaultSandboxEmail
-  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  Alexa:
+    Type: AWS::CloudFormation::Stack
+    Condition: DeployAlexaEndpoint
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/alexa.yaml
+      Parameters:
+        AlexaSkillId: !Ref AlexaSkillId
+        PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
+        LocationServiceExternalUrl: !GetAtt Services.Outputs.LocationServiceUrl
+        OrdersServiceExternalUrl: !GetAtt Services.Outputs.OrdersServiceUrl
+        CartsServiceExternalUrl: !GetAtt Services.Outputs.CartsServiceUrl
+        RecommendationsServiceExternalUrl: !GetAtt Services.Outputs.RecommendationsServiceUrl
+        LocationResourceName:
+          !If [
+            DeployLocationStack,
+            !GetAtt Location.Outputs.LocationResourceName,
+            "NotDeployed",
+          ]
+        AlexaDefaultSandboxEmail: !Ref AlexaDefaultSandboxEmail
+        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
   # Deployment support
-  # DeploymentSupport:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/deployment-support.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       PreIndexOpenSearch: !Ref PreIndexOpenSearch
-  #       PreCreatePersonalizeResources: !Ref PreCreatePersonalizeResources
-  #       Subnet1: !GetAtt Base.Outputs.Subnet1
-  #       Subnet2: !GetAtt Base.Outputs.Subnet2
-  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-  #       OpenSearchSecurityGroupId: !GetAtt Base.Outputs.OpenSearchSecurityGroupId
-  #       OpenSearchDomainArn: !GetAtt Base.Outputs.OpenSearchDomainArn
-  #       OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
-  #       ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
-  #       PreCreatePinpointWorkshop: !Ref PreCreatePinpointWorkshop
-  #       Uid: !Sub ${AWS::StackName}-${AWS::Region}
-  #       PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
-  #       PinpointPersonalizeRoleArn: !GetAtt Services.Outputs.PinpointPersonalizeRoleArn
-  #       CustomizeRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeRecommendationsFunctionArn
-  #       CustomizeOffersRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeOffersRecommendationsFunctionArn
-  #       PinpointEmailFromAddress: !Ref PinpointEmailFromAddress
-  #       PinpointEmailFromName: !Ref PinpointEmailFromName
-  #       UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
-  #       ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
-  #       DeployPersonalizedOffersCampaign: !Ref DeployPersonalizedOffersCampaign
-  #       PersonalizeRoleArn: !GetAtt Base.Outputs.PersonalizeRoleArn
-  #       StackBucketName: !GetAtt Base.Outputs.StackBucketName
+  DeploymentSupport:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/deployment-support.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        PreIndexOpenSearch: !Ref PreIndexOpenSearch
+        PreCreatePersonalizeResources: !Ref PreCreatePersonalizeResources
+        Subnet1: !GetAtt Base.Outputs.Subnet1
+        Subnet2: !GetAtt Base.Outputs.Subnet2
+        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+        OpenSearchSecurityGroupId: !GetAtt Base.Outputs.OpenSearchSecurityGroupId
+        OpenSearchDomainArn: !GetAtt Base.Outputs.OpenSearchDomainArn
+        OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
+        ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
+        PreCreatePinpointWorkshop: !Ref PreCreatePinpointWorkshop
+        Uid: !Sub ${AWS::StackName}-${AWS::Region}
+        PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
+        PinpointPersonalizeRoleArn: !GetAtt Services.Outputs.PinpointPersonalizeRoleArn
+        CustomizeRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeRecommendationsFunctionArn
+        CustomizeOffersRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeOffersRecommendationsFunctionArn
+        PinpointEmailFromAddress: !Ref PinpointEmailFromAddress
+        PinpointEmailFromName: !Ref PinpointEmailFromName
+        UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
+        ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
+        DeployPersonalizedOffersCampaign: !Ref DeployPersonalizedOffersCampaign
+        PersonalizeRoleArn: !GetAtt Base.Outputs.PersonalizeRoleArn
+        StackBucketName: !GetAtt Base.Outputs.StackBucketName
 
   # Cleanup bucket function
   CleanupBucket:
@@ -938,62 +936,62 @@ Resources:
       TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/cleanup-bucket.yaml
 
   # Segment Lambda Functions and Roles
-  # SegmentPersonalize:
-  #   Condition: DeploySegmentResources
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/segment.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  SegmentPersonalize:
+    Condition: DeploySegmentResources
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/segment.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
 
   # mParticle Lambda Functions Kinesis and Roles
-  # mParticlePersonalize:
-  #   Condition: DeploymParticleResources
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/mparticle.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       mParticleOrgId: !Ref mParticleOrgId
-  #       Uid: !Sub ${AWS::StackName}-${AWS::Region}
-  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  mParticlePersonalize:
+    Condition: DeploymParticleResources
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/mparticle.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        mParticleOrgId: !Ref mParticleOrgId
+        Uid: !Sub ${AWS::StackName}-${AWS::Region}
+        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
-  # RoomMakeover:
-  #   Type: AWS::CloudFormation::Stack
-  #   Condition: DeployRoomMakeoverStack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/room-generator.yaml
-  #     Parameters:
-  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
-  #       CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
-  #       OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
-  #       ApiGatewayId: !GetAtt ApiGateway.Outputs.ApiGatewayId
-  #       LambdaAuthorizer: !GetAtt ApiGateway.Outputs.ApiGatewayAuthorizer
-  #       WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
-  #       WebURL: !If 
-  #         - ConditionCustomDomain
-  #         - !Sub https://${CloudfrontCustomDomain}
-  #         - !GetAtt Base.Outputs.WebUICDNURL        
-  #       CognitoAuthorizedRole: !GetAtt Base.Outputs.CognitoAuthorizedRole
-  #       SageMakerEndpointName: !Ref SageMakerEndpointName
-  #       EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
-  #       SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
-  #       SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
-  #       SourceDeploymentType: !Ref SourceDeploymentType
-  #       GitHubRepo: !Ref GitHubRepo
-  #       GitHubBranch: !Ref GitHubBranch
-  #       GitHubToken: !Ref GitHubToken
-  #       GitHubUser: !Ref GitHubUser     
+  RoomMakeover:
+    Type: AWS::CloudFormation::Stack
+    Condition: DeployRoomMakeoverStack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/room-generator.yaml
+      Parameters:
+        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
+        CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
+        OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
+        ApiGatewayId: !GetAtt ApiGateway.Outputs.ApiGatewayId
+        LambdaAuthorizer: !GetAtt ApiGateway.Outputs.ApiGatewayAuthorizer
+        WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
+        WebURL: !If 
+          - ConditionCustomDomain
+          - !Sub https://${CloudfrontCustomDomain}
+          - !GetAtt Base.Outputs.WebUICDNURL        
+        CognitoAuthorizedRole: !GetAtt Base.Outputs.CognitoAuthorizedRole
+        SageMakerEndpointName: !Ref SageMakerEndpointName
+        EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
+        SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
+        SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
+        SourceDeploymentType: !Ref SourceDeploymentType
+        GitHubRepo: !Ref GitHubRepo
+        GitHubBranch: !Ref GitHubBranch
+        GitHubToken: !Ref GitHubToken
+        GitHubUser: !Ref GitHubUser     
 
   ApiGatewayDeploy:
     Type: AWS::CloudFormation::Stack
@@ -1024,9 +1022,9 @@ Outputs:
     Description: Stack Bucket Name
     Value: !GetAtt Base.Outputs.StackBucketName
 
-  # NotebookInstanceId:
-  #   Description: Notebook Instance Id.
-  #   Value: !GetAtt Base.Outputs.NotebookInstanceId
+  NotebookInstanceId:
+    Description: Notebook Instance Id.
+    Value: !GetAtt Base.Outputs.NotebookInstanceId
 
   VpcId:
     Description: VPC Id.
@@ -1056,9 +1054,9 @@ Outputs:
     Description: Pinpoint App Id.
     Value: !GetAtt Base.Outputs.PinpointAppId
 
-  # AlexaSkillEndpointArn:
-  #   Description: Arn of AWS Lambda function that can be a back-end
-  #   Value: !If [DeployAlexaEndpoint, !GetAtt Alexa.Outputs.AlexaSkillEndpointArn, "NotDeployed"]
+  AlexaSkillEndpointArn:
+    Description: Arn of AWS Lambda function that can be a back-end
+    Value: !If [DeployAlexaEndpoint, !GetAtt Alexa.Outputs.AlexaSkillEndpointArn, "NotDeployed"]
 
   ProductsServiceUrl:
     Description: Products load balancer URL.

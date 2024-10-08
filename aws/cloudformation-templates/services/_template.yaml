@@ -82,8 +82,8 @@ Parameters:
     Type: String
     Default: none
 
-  # PinpointAppId:
-  #   Type: String
+  PinpointAppId:
+    Type: String
 
   ProductsTable:
     Type: String
@@ -207,7 +207,7 @@ Resources:
         ParameterPersonalizeEventTrackerId: !Ref ParameterPersonalizeEventTrackerId
         ParameterAmplitudeApiKey: !Ref ParameterAmplitudeApiKey
         ParameterOptimizelySdkKey: !Ref ParameterOptimizelySdkKey
-        # PinpointAppId: !Ref PinpointAppId
+        PinpointAppId: !Ref PinpointAppId
         CleanupBucketLambdaArn: !Ref CleanupBucketLambdaArn
         DeleteRepositoryLambdaArn: !GetAtt DeleteRepositoryLambdaFunction.Arn
         WebRootUrl: !Ref WebRootUrl
@@ -452,20 +452,20 @@ Resources:
         LoggingBucketName: !Ref LoggingBucketName
 
   # Pinpoint personalized messaging customization
-  # PinpointPersonalize:
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/services/pinpoint-personalize.yaml
-  #     Parameters:
-  #       ResourceBucket: !Ref ResourceBucket
-  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-  #       ProductsServiceDNSName: !GetAtt ProductsService.Outputs.ServiceDNSName
-  #       RecommendationsServiceDNSName: !GetAtt RecommendationsService.Outputs.ServiceDNSName
-  #       OffersServiceDNSName: !GetAtt OffersService.Outputs.ServiceDNSName
-  #       PinpointAppId: !Ref PinpointAppId
-  #       Uid: !Sub ${AWS::StackName}-${AWS::Region}
-  #       LambdaVpcSecurityGroup: !Ref LambdaVpcSecurityGroup
-  #       LambdaVpcSubnets: !Ref Subnets
+  PinpointPersonalize:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/services/pinpoint-personalize.yaml
+      Parameters:
+        ResourceBucket: !Ref ResourceBucket
+        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+        ProductsServiceDNSName: !GetAtt ProductsService.Outputs.ServiceDNSName
+        RecommendationsServiceDNSName: !GetAtt RecommendationsService.Outputs.ServiceDNSName
+        OffersServiceDNSName: !GetAtt OffersService.Outputs.ServiceDNSName
+        PinpointAppId: !Ref PinpointAppId
+        Uid: !Sub ${AWS::StackName}-${AWS::Region}
+        LambdaVpcSecurityGroup: !Ref LambdaVpcSecurityGroup
+        LambdaVpcSubnets: !Ref Subnets
 
   ####################### Delete Repository Custom Resource #######################
 
