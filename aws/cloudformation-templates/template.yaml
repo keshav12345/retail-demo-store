@@ -40,10 +40,10 @@ Metadata:
         Parameters:
           - BedrockProductPersonalization
           - DeployRoomMakeoverDemo
-          - SageMakerEndpointName
+          # - SageMakerEndpointName
           - EnableSageMakerAutoScaling
-          - SageMakerScalingMinCapacity
-          - SageMakerScalingMaxCapacity
+          # - SageMakerScalingMinCapacity
+          # - SageMakerScalingMaxCapacity
           - OpenSearchEmbeddingIndex
       - Label:
           default: "Use default IVS streams"
