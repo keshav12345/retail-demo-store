@@ -532,26 +532,26 @@ Parameters:
     Default: 'nr50Qdu7FM94n2X1GYuhA8cFzyvdYTJ5Qka4XMOd'
     NoEcho: true
 
-  BedrockProductPersonalization:
-    Type: String
-    Description: Flag to enable product personalization in web-ui feature driven by Bedrock. Amazon Bedrock users need to request access to models before they are available for use. To demo Personalised Product Descriptions make sure to enable access to Anthropic's Claude v2 via the Amazon Bedrock Management Console. Check README Notes for more details.
-    AllowedValues:
-      - 'Yes'
-      - 'No'
-    Default: 'No'
+  # BedrockProductPersonalization:
+  #   Type: String
+  #   Description: Flag to enable product personalization in web-ui feature driven by Bedrock. Amazon Bedrock users need to request access to models before they are available for use. To demo Personalised Product Descriptions make sure to enable access to Anthropic's Claude v2 via the Amazon Bedrock Management Console. Check README Notes for more details.
+  #   AllowedValues:
+  #     - 'Yes'
+  #     - 'No'
+  #   Default: 'No'
 
   SourceImagesPackage:
     Type: String
     Description : Full url to the images.tar.gz address (only change if you plan to upload custom pictures)
     Default: https://code.retaildemostore.retail.aws.dev/images.tar.gz
 
-  DeployRoomMakeoverDemo:
-    Type: String
-    Description: Flag to deploy the Room Makeover demo. Amazon Bedrock users need to request access to models before they are available for use. To demo the Room Makerover functionality make sure to enable access to Anthropic's Claude v3 & Titan Embeddings via the Amazon Bedrock Management Console. Check README Notes for more details.
-    AllowedValues:
-      - 'Yes'
-      - 'No'
-    Default: 'No'
+  # DeployRoomMakeoverDemo:
+  #   Type: String
+  #   Description: Flag to deploy the Room Makeover demo. Amazon Bedrock users need to request access to models before they are available for use. To demo the Room Makerover functionality make sure to enable access to Anthropic's Claude v3 & Titan Embeddings via the Amazon Bedrock Management Console. Check README Notes for more details.
+  #   AllowedValues:
+  #     - 'Yes'
+  #     - 'No'
+  #   Default: 'No'
   
   EnableSageMakerAutoScaling:
     Type: String
@@ -983,10 +983,10 @@ Resources:
           - !Sub https://${CloudfrontCustomDomain}
           - !GetAtt Base.Outputs.WebUICDNURL        
         CognitoAuthorizedRole: !GetAtt Base.Outputs.CognitoAuthorizedRole
-        SageMakerEndpointName: !Ref SageMakerEndpointName
-        EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
-        SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
-        SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
+        # SageMakerEndpointName: !Ref SageMakerEndpointName
+        # EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
+        # SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
+        # SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
         SourceDeploymentType: !Ref SourceDeploymentType
         GitHubRepo: !Ref GitHubRepo
         GitHubBranch: !Ref GitHubBranch
