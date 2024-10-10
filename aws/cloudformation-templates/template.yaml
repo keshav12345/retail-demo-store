@@ -311,16 +311,16 @@ Parameters:
       is set to 'Yes'.
     Default: "AWS Retail Demo Store"
 
-  UseDefaultIVSStreams:
-    Type: String
-    Description: >
-      Whether to create and use the default Interactive Video Service (IVS) streams hosted by AWS. If 'No', then new IVS streams will be created and streams
-      created based on any videos placed in the CloudFormation resource bucket. IMPORTANT: IVS is currently only supported in the N. Virginia (us-east-1),
-      Oregon (us-west-2), and Ireland (eu-west-1) regions. If deploying to an unsupported region, be sure to select 'Yes' for this parameter.
-    AllowedValues:
-      - "Yes"
-      - "No"
-    Default: "Yes"
+  # UseDefaultIVSStreams:
+  #   Type: String
+  #   Description: >
+  #     Whether to create and use the default Interactive Video Service (IVS) streams hosted by AWS. If 'No', then new IVS streams will be created and streams
+  #     created based on any videos placed in the CloudFormation resource bucket. IMPORTANT: IVS is currently only supported in the N. Virginia (us-east-1),
+  #     Oregon (us-west-2), and Ireland (eu-west-1) regions. If deploying to an unsupported region, be sure to select 'Yes' for this parameter.
+  #   AllowedValues:
+  #     - "Yes"
+  #     - "No"
+  #   Default: "No"
 
   PinpointSMSLongCode:
     Type: String
@@ -696,12 +696,12 @@ Resources:
         ParameterAmplitudeApiKey: !GetAtt Base.Outputs.ParameterAmplitudeApiKey
         ParameterOptimizelySdkKey: !GetAtt Base.Outputs.ParameterOptimizelySdkKey
         CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
-        ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
+        # ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
         WebRootUrl: !If 
           - ConditionCustomDomain
           - !Sub https://${CloudfrontCustomDomain}
           - !GetAtt Base.Outputs.WebUICDNURL
-        UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
+        # UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
         ImageRootUrl: !If 
           - ConditionCustomDomain
           - !Sub https://${CloudfrontCustomDomain}/images/
@@ -914,7 +914,7 @@ Resources:
         OpenSearchSecurityGroupId: !GetAtt Base.Outputs.OpenSearchSecurityGroupId
         OpenSearchDomainArn: !GetAtt Base.Outputs.OpenSearchDomainArn
         OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
-        ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
+        # ParameterIVSVideoChannelMap: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
         PreCreatePinpointWorkshop: !Ref PreCreatePinpointWorkshop
         Uid: !Sub ${AWS::StackName}-${AWS::Region}
         PinpointAppId: !GetAtt Base.Outputs.PinpointAppId
@@ -923,7 +923,7 @@ Resources:
         CustomizeOffersRecommendationsFunctionArn: !GetAtt Services.Outputs.CustomizeOffersRecommendationsFunctionArn
         PinpointEmailFromAddress: !Ref PinpointEmailFromAddress
         PinpointEmailFromName: !Ref PinpointEmailFromName
-        UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
+        # UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
         ProductsServiceExternalUrl: !GetAtt Services.Outputs.ProductsServiceUrl
         DeployPersonalizedOffersCampaign: !Ref DeployPersonalizedOffersCampaign
         PersonalizeRoleArn: !GetAtt Base.Outputs.PersonalizeRoleArn
@@ -1046,9 +1046,9 @@ Outputs:
     Description: OpenSearch Endpoint
     Value: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
 
-  ParameterIVSVideoChannelMap:
-    Description: Retail Demo Store video file to IVS channel mapping parameter
-    Value: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
+  # ParameterIVSVideoChannelMap:
+  #   Description: Retail Demo Store video file to IVS channel mapping parameter
+  #   Value: !GetAtt Base.Outputs.ParameterIVSVideoChannelMap
 
   PinpointAppId:
     Description: Pinpoint App Id.
@@ -1142,5 +1142,5 @@ Outputs:
         AWS_DEFAULT_REGION=${AWS::Region}
 
         # Videos service
-        PARAMETER_IVS_VIDEO_CHANNEL_MAP=${Base.Outputs.ParameterIVSVideoChannelMap}
-        USE_DEFAULT_IVS_STREAMS=true
+        # PARAMETER_IVS_VIDEO_CHANNEL_MAP=${Base.Outputs.ParameterIVSVideoChannelMap}
+        # USE_DEFAULT_IVS_STREAMS=true
