@@ -38,8 +38,8 @@ Metadata:
       - Label:
           default: "Generative AI Optional Integrations"
         Parameters:
-          - BedrockProductPersonalization
-          - DeployRoomMakeoverDemo
+          # - BedrockProductPersonalization
+          # - DeployRoomMakeoverDemo
           # - SageMakerEndpointName
           # - EnableSageMakerAutoScaling
           # - SageMakerScalingMinCapacity
@@ -762,7 +762,7 @@ Resources:
         FenixEnabledCart: !Ref FenixEnabledCart
         FenixEnabledCheckout: !Ref FenixEnabledCheckout
         FenixXapiKey: !Ref FenixXapiKey
-        BedrockProductPersonalization: !Ref BedrockProductPersonalization
+        # BedrockProductPersonalization: !Ref BedrockProductPersonalization
         # RoomImagesBucket: !If [DeployRoomMakeoverStack, !GetAtt RoomMakeover.Outputs.RoomImagesBucket, '']
         LocationResourceName:
           !If [
