@@ -763,7 +763,7 @@ Resources:
         FenixEnabledCheckout: !Ref FenixEnabledCheckout
         FenixXapiKey: !Ref FenixXapiKey
         BedrockProductPersonalization: !Ref BedrockProductPersonalization
-        RoomImagesBucket: !If [DeployRoomMakeoverStack, !GetAtt RoomMakeover.Outputs.RoomImagesBucket, '']
+        # RoomImagesBucket: !If [DeployRoomMakeoverStack, !GetAtt RoomMakeover.Outputs.RoomImagesBucket, '']
         LocationResourceName:
           !If [
             DeployLocationStack,
@@ -962,36 +962,36 @@ Resources:
         LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
         LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
 
-  RoomMakeover:
-    Type: AWS::CloudFormation::Stack
-    Condition: DeployRoomMakeoverStack
-    Properties:
-      TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/room-generator.yaml
-      Parameters:
-        LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
-        LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
-        ResourceBucket: !Ref ResourceBucket
-        ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
-        LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
-        CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
-        OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
-        ApiGatewayId: !GetAtt ApiGateway.Outputs.ApiGatewayId
-        LambdaAuthorizer: !GetAtt ApiGateway.Outputs.ApiGatewayAuthorizer
-        WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
-        WebURL: !If 
-          - ConditionCustomDomain
-          - !Sub https://${CloudfrontCustomDomain}
-          - !GetAtt Base.Outputs.WebUICDNURL        
-        CognitoAuthorizedRole: !GetAtt Base.Outputs.CognitoAuthorizedRole
-        # SageMakerEndpointName: !Ref SageMakerEndpointName
-        # EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
-        # SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
-        # SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
-        SourceDeploymentType: !Ref SourceDeploymentType
-        GitHubRepo: !Ref GitHubRepo
-        GitHubBranch: !Ref GitHubBranch
-        GitHubToken: !Ref GitHubToken
-        GitHubUser: !Ref GitHubUser     
+  # RoomMakeover:
+  #   Type: AWS::CloudFormation::Stack
+  #   Condition: DeployRoomMakeoverStack
+  #   Properties:
+  #     TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/room-generator.yaml
+  #     Parameters:
+  #       LambdaVpcSecurityGroup: !GetAtt Base.Outputs.PrivateVPCSecurityGroup
+  #       LambdaVpcSubnets: !GetAtt Base.Outputs.Subnets
+  #       ResourceBucket: !Ref ResourceBucket
+  #       ResourceBucketRelativePath: !Ref ResourceBucketRelativePath
+  #       LoggingBucketName: !GetAtt Base.Outputs.LoggingBucketName
+  #       CleanupBucketLambdaArn: !GetAtt CleanupBucket.Outputs.LambdaFunctionArn
+  #       OpenSearchDomainEndpoint: !GetAtt Base.Outputs.OpenSearchDomainEndpoint
+  #       ApiGatewayId: !GetAtt ApiGateway.Outputs.ApiGatewayId
+  #       LambdaAuthorizer: !GetAtt ApiGateway.Outputs.ApiGatewayAuthorizer
+  #       WebUIBucketName: !GetAtt Base.Outputs.WebUIBucketName
+  #       WebURL: !If 
+  #         - ConditionCustomDomain
+  #         - !Sub https://${CloudfrontCustomDomain}
+  #         - !GetAtt Base.Outputs.WebUICDNURL        
+  #       CognitoAuthorizedRole: !GetAtt Base.Outputs.CognitoAuthorizedRole
+  #       # SageMakerEndpointName: !Ref SageMakerEndpointName
+  #       # EnableSageMakerAutoScaling: !Ref EnableSageMakerAutoScaling
+  #       # SageMakerScalingMaxCapacity: !Ref SageMakerScalingMaxCapacity
+  #       # SageMakerScalingMinCapacity: !Ref SageMakerScalingMinCapacity
+  #       SourceDeploymentType: !Ref SourceDeploymentType
+  #       GitHubRepo: !Ref GitHubRepo
+  #       GitHubBranch: !Ref GitHubBranch
+  #       GitHubToken: !Ref GitHubToken
+  #       GitHubUser: !Ref GitHubUser     
 
   ApiGatewayDeploy:
     Type: AWS::CloudFormation::Stack
@@ -1001,9 +1001,9 @@ Resources:
       TemplateURL: !Sub https://s3.amazonaws.com/${ResourceBucket}/${ResourceBucketRelativePath}cloudformation-templates/apigateway-deploy.yaml
       Parameters:
         ApiGatewayId: !GetAtt ApiGateway.Outputs.ApiGatewayId
-      Tags:
-        - Key: ConditionalDependsOn
-          Value: !If [DeployRoomMakeoverStack, !Ref RoomMakeover, Ignored]
+      # Tags:
+      #   - Key: ConditionalDependsOn
+      #     Value: !If [DeployRoomMakeoverStack, !Ref RoomMakeover, Ignored]
 
 Outputs:
   UserPoolId:
