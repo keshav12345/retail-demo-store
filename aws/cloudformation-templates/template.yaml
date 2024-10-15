@@ -45,10 +45,10 @@ Metadata:
           # - SageMakerScalingMinCapacity
           # - SageMakerScalingMaxCapacity
           - OpenSearchEmbeddingIndex
-      - Label:
-          default: "Use default IVS streams"
-        Parameters:
-          - UseDefaultIVSStreams
+      # - Label:
+      #     default: "Use default IVS streams"
+      #   Parameters:
+      #     - UseDefaultIVSStreams
       - Label:
           default: "Create Location and Personalised Offers resources"
         Parameters:
@@ -125,8 +125,8 @@ Metadata:
         default: "Reply-To name"
       PinpointSMSLongCode:
         default: "Pinpoint SMS long code"
-      UseDefaultIVSStreams:
-        default: "Use default IVS streams"
+      # UseDefaultIVSStreams:
+      #   default: "Use default IVS streams"
       DeployLocationServices:
         default: "Deploy Location Services resources"
       DeployPersonalizedOffersCampaign:

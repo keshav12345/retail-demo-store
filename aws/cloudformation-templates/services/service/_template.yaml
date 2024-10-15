@@ -200,9 +200,9 @@ Parameters:
     Type: String
     Description: Lambda Arn for deleting ECR repository
 
-  UseDefaultIVSStreams:
-    Type: String
-    Default: false
+  # UseDefaultIVSStreams:
+  #   Type: String
+  #   Default: false
 
   EvidentlyProjectName:
     Type: String
@@ -285,7 +285,7 @@ Resources:
         EnvOpenSearchDomainEndpoint: !Ref EnvOpenSearchDomainEndpoint
         ResourceBucket: !Ref ResourceBucket
         # ParameterIVSVideoChannelMap: !Ref ParameterIVSVideoChannelMap
-        UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
+        # UseDefaultIVSStreams: !Ref UseDefaultIVSStreams
         ProductsTable: !Ref ProductsTable
         CategoriesTable: !Ref CategoriesTable
         CartsTable: !Ref CartsTable

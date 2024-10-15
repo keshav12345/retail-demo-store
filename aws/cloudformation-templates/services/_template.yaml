@@ -5,9 +5,9 @@ Description: >
     This template deploys the Retail Demo Store Services.
 
 Conditions:
-  UseDefaultIVSStreams: !Equals
-    - !Ref UseDefaultIVSStreams
-    - 'Yes'
+  # UseDefaultIVSStreams: !Equals
+  #   - !Ref UseDefaultIVSStreams
+  #   - 'Yes'
 
 Parameters:
   ResourceBucket:
@@ -129,9 +129,9 @@ Parameters:
     Type: String
     Description: Lambda Arn for cleanup function
 
-  UseDefaultIVSStreams:
-    Type: String
-    Description: Whether to use created IVS streams or those hosted by AWS.
+  # UseDefaultIVSStreams:
+  #   Type: String
+  #   Description: Whether to use created IVS streams or those hosted by AWS.
 
   EvidentlyProjectName:
     Type: String

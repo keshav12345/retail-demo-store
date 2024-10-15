@@ -137,9 +137,9 @@ Conditions:
     - !Condition AutoCreatePinpointWorkshop
     - !Condition AutoCreatePersonalizedOffersCampaign
 
-  CreateIVSResources: !Equals
-    - !Ref UseDefaultIVSStreams
-    - 'No'
+  # CreateIVSResources: !Equals
+  #   - !Ref UseDefaultIVSStreams
+  #   - 'No'
 
 Resources:
 
