@@ -74,9 +74,9 @@ Parameters:
     Type: String
     Default: none
 
-  ParameterIVSVideoChannelMap:
-    Type: String
-    Default: none
+  # ParameterIVSVideoChannelMap:
+  #   Type: String
+  #   Default: none
 
   UseDefaultIVSStreams:
     Type: String

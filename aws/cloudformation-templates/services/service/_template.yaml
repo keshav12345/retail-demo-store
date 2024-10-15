@@ -187,10 +187,10 @@ Parameters:
     Description: SSM parameter name for the Optimizely SDK key
     Default: none
 
-  ParameterIVSVideoChannelMap:
-    Type: String
-    Description: SSM parameter name for video to IVS stream map
-    Default: none
+  # ParameterIVSVideoChannelMap:
+  #   Type: String
+  #   Description: SSM parameter name for video to IVS stream map
+  #   Default: none
 
   CleanupBucketLambdaArn:
     Type: String

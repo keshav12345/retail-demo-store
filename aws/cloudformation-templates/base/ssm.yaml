@@ -217,13 +217,13 @@ Resources:
       Value: !If [HasOptimizelySdkKey, !Ref OptimizelySdkKey, "NONE"]
       Description: "Retail Demo Store Optimizely SDK key"
 
-  ParameterIVSVideoChannelMap:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: "retaildemostore-ivs-video-channel-map"
-      Type: "String"
-      Value: "NONE"
-      Description: "Retail Demo Store video file to IVS channel mapping"
+  # ParameterIVSVideoChannelMap:
+  #   Type: "AWS::SSM::Parameter"
+  #   Properties:
+  #     Name: "retaildemostore-ivs-video-channel-map"
+  #     Type: "String"
+  #     Value: "NONE"
+  #     Description: "Retail Demo Store video file to IVS channel mapping"
 
   ParameterSegmentWriteKey:
     Type: "AWS::SSM::Parameter"
@@ -335,9 +335,9 @@ Outputs:
     Description: Optimizely SDK key
     Value: !Ref ParameterOptimizelySdkKey
 
-  ParameterIVSVideoChannelMap:
-    Description: Retail Demo Store video file to IVS channel mapping
-    Value: !Ref ParameterIVSVideoChannelMap
+  # ParameterIVSVideoChannelMap:
+  #   Description: Retail Demo Store video file to IVS channel mapping
+  #   Value: !Ref ParameterIVSVideoChannelMap
 
   ParameterSegmentWriteKey:
     Description: Segment write key

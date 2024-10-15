@@ -375,83 +375,83 @@ Resources:
 
   ####################### Create IVS Channels #######################
 
-  IVSCreateChannelsLambdaFunction:
-    Type: 'AWS::Lambda::Function'
-    Condition: CreateIVSResources
-    Properties:
-      Description: 'Retail Demo Store deployment utility function that creates IVS channels.'
-      Handler: ivs-create-channels.lambda_handler
-      Role: !GetAtt IVSCreateChannelsLambdaExecutionRole.Arn
-      Code:
-        S3Bucket: !Ref ResourceBucket
-        S3Key: !Sub '${ResourceBucketRelativePath}aws-lambda/ivs-create-channels.zip'
-      Runtime: python3.12
-      Timeout: 900
-      FunctionName: RetailDemoStoreIVSCreateChannels
-      Environment:
-        Variables:
-          bucket: !Ref ResourceBucket
-          videos_path: !Sub '${ResourceBucketRelativePath}videos/'
-          ssm_video_channel_map_param: !Ref ParameterIVSVideoChannelMap
-          Uid: !Ref Uid
+  # IVSCreateChannelsLambdaFunction:
+  #   Type: 'AWS::Lambda::Function'
+  #   Condition: CreateIVSResources
+  #   Properties:
+  #     Description: 'Retail Demo Store deployment utility function that creates IVS channels.'
+  #     Handler: ivs-create-channels.lambda_handler
+  #     Role: !GetAtt IVSCreateChannelsLambdaExecutionRole.Arn
+  #     Code:
+  #       S3Bucket: !Ref ResourceBucket
+  #       S3Key: !Sub '${ResourceBucketRelativePath}aws-lambda/ivs-create-channels.zip'
+  #     Runtime: python3.12
+  #     Timeout: 900
+  #     FunctionName: RetailDemoStoreIVSCreateChannels
+  #     Environment:
+  #       Variables:
+  #         bucket: !Ref ResourceBucket
+  #         videos_path: !Sub '${ResourceBucketRelativePath}videos/'
+  #         ssm_video_channel_map_param: !Ref ParameterIVSVideoChannelMap
+  #         Uid: !Ref Uid
 
-  IVSCreateChannelsLambdaExecutionRole:
-    Type: 'AWS::IAM::Role'
-    Condition: CreateIVSResources
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      Policies:
-        - PolicyName: root
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource:
-                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/RetailDemoStoreIVSCreateChannels:log-stream:*'
-                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/RetailDemoStoreIVSCreateChannels'
-              - Effect: Allow
-                Action:
-                  - ssm:PutParameter
-                  - ssm:GetParameter
-                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/retaildemostore*'
-              - Effect: Allow
-                Action:
-                  - ivs:CreateChannel
-                  - ivs:CreateStreamKey
-                  - ivs:ListStreamKeys
-                  - ivs:DeleteChannel
-                Resource: !Sub 'arn:aws:ivs:${AWS::Region}:${AWS::AccountId}:*'
-              - Effect: Allow
-                Action:
-                  - ivs:StopStream
-                  - ivs:GetChannel
-                Resource: !Sub 'arn:aws:ivs:${AWS::Region}:${AWS::AccountId}:channel/*'
-              - Effect: Allow
-                Action:
-                  - ivs:DeleteStreamKey
-                Resource: !Sub 'arn:aws:ivs:${AWS::Region}:${AWS::AccountId}:stream-key/*'
-              - Effect: Allow
-                Action:
-                  - s3:ListBucket
-                Resource:
-                  - !Sub "arn:aws:s3:::${ResourceBucket}/*"
-                  - !Sub "arn:aws:s3:::${ResourceBucket}"
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                Resource: '*'
+  # IVSCreateChannelsLambdaExecutionRole:
+  #   Type: 'AWS::IAM::Role'
+  #   Condition: CreateIVSResources
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service:
+  #               - lambda.amazonaws.com
+  #           Action:
+  #             - 'sts:AssumeRole'
+  #     Path: /
+  #     Policies:
+  #       - PolicyName: root
+  #         PolicyDocument:
+  #           Version: 2012-10-17
+  #           Statement:
+  #             - Effect: Allow
+  #               Action:
+  #                 - logs:CreateLogStream
+  #                 - logs:PutLogEvents
+  #               Resource:
+  #                 - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/RetailDemoStoreIVSCreateChannels:log-stream:*'
+  #                 - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/RetailDemoStoreIVSCreateChannels'
+  #             - Effect: Allow
+  #               Action:
+  #                 - ssm:PutParameter
+  #                 - ssm:GetParameter
+  #               Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/retaildemostore*'
+  #             - Effect: Allow
+  #               Action:
+  #                 - ivs:CreateChannel
+  #                 - ivs:CreateStreamKey
+  #                 - ivs:ListStreamKeys
+  #                 - ivs:DeleteChannel
+  #               Resource: !Sub 'arn:aws:ivs:${AWS::Region}:${AWS::AccountId}:*'
+  #             - Effect: Allow
+  #               Action:
+  #                 - ivs:StopStream
+  #                 - ivs:GetChannel
+  #               Resource: !Sub 'arn:aws:ivs:${AWS::Region}:${AWS::AccountId}:channel/*'
+  #             - Effect: Allow
+  #               Action:
+  #                 - ivs:DeleteStreamKey
+  #               Resource: !Sub 'arn:aws:ivs:${AWS::Region}:${AWS::AccountId}:stream-key/*'
+  #             - Effect: Allow
+  #               Action:
+  #                 - s3:ListBucket
+  #               Resource:
+  #                 - !Sub "arn:aws:s3:::${ResourceBucket}/*"
+  #                 - !Sub "arn:aws:s3:::${ResourceBucket}"
+  #             - Effect: Allow
+  #               Action:
+  #                 - logs:CreateLogGroup
+  #               Resource: '*'
 
   # Custom resource to launch IVS create channels function
   CustomLaunchIVSCreateChannelsLambdaFunction:
